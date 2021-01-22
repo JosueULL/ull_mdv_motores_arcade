@@ -80,8 +80,8 @@ void APlayerPawn::OnJump()
 	FHitResult hit;
 	FVector start = GetActorLocation() + GetActorUpVector();
 	FVector end = start - GetActorUpVector() * GroundCheckLength;
-	FCollisionObjectQueryParams query = FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic);
-	if (GetWorld()->LineTraceSingleByObjectType(hit, start, end, query))
+	if (GetWorld()->LineTraceSingleByChannel(hit, start, end, ECollisionChannel::ECC_WorldStatic) ||
+		GetWorld()->LineTraceSingleByChannel(hit, start, end, ECollisionChannel::ECC_WorldDynamic))
 	{
 		Root->AddImpulse(FVector(0, 0, JumpForce));
 
